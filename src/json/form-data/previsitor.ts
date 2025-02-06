@@ -1,0 +1,171 @@
+export const visitorForm = {
+  component: "form",
+  mode: "editMode",
+  title: "Visitor Management Form",
+  classname: "grid-cols-12",
+  baseurl: "api/visitorDetails",
+  subformstructure:{
+    formgrid:1,
+    classname:"grid col-span-6 grid-cols-12"
+  },
+  validationRules: {
+    required: [
+      "mobile_number",
+      "purpose",
+      "date",
+      "visiting_employee",
+      "visitor_name",
+      "visiting_department",
+      "company",
+      "division",
+      "no_of_persons",
+      "address"
+    ]
+  },
+  fields: [
+    {
+      type: "tel",
+      tag: "select",
+      label: "Mobile Number",
+      name: "mobile_number",
+      classname: "col-span-6",
+      icon: "phone",
+      required: true,
+      editable: true,
+      options: [
+        { label: "+91 9876543210", value: "+919876543210" },
+        { label: "+91 9876543211", value: "+919876543211" }
+      ],
+      displayOrder: 1,
+    },
+    {
+      type: "select",
+      tag: "select",
+      label: "Purpose",
+      name: "purpose",
+      classname: "col-span-6",
+      icon: "target",
+      required: true,
+      editable: true,
+      options: [
+        { label: "Meeting", value: "Meeting" },
+        { label: "Interview", value: "Interview" },
+        { label: "Delivery", value: "Delivery" }
+      ],
+      displayOrder: 2,
+    },
+    {
+      type: "date",
+      tag: "input",
+      label: "Date",
+      name: "date",
+      classname: "col-span-6",
+      icon: "calendar",
+      required: true,
+      editable: true,
+      defaultValue: "2025-01-27",
+      displayOrder: 3,
+    },
+    {
+      type: "select",
+      tag: "select",
+      label: "Visiting Employee",
+      name: "visiting_employee",
+      classname: "col-span-6",
+      icon: "user",
+      required: true,
+      editable: true,
+      options: [
+        { label: "John Smith", value: "John Smith" },
+        { label: "Jane Doe", value: "Jane Doe" }
+      ],
+      displayOrder: 4,
+    },
+    {
+      type: "text",
+      tag: "input",
+      label: "Visitor Name",
+      name: "visitor_name",
+      classname: "col-span-6",
+      icon: "user",
+      required: true,
+      editable: true,
+      displayOrder: 5,
+    },
+    {
+      type: "text",
+      tag: "input",
+      label: "Visiting Department",
+      name: "visiting_department",
+      classname: "col-span-6",
+      icon: "building",
+      required: true,
+      editable: true,
+      displayOrder: 6,
+    },
+    {
+      type: "text",
+      tag: "input",
+      label: "Company",
+      name: "company",
+      classname: "col-span-6",
+      icon: "briefcase",
+      required: true,
+      editable: true,
+      displayOrder: 7,
+    },
+    {
+      type: "select",
+      tag: "select",
+      label: "Division",
+      name: "division",
+      classname: "col-span-6",
+      icon: "git-branch",
+      required: true,
+      editable: true,
+      options: [
+        { label: "IT", value: "IT" },
+        { label: "HR", value: "HR" },
+        { label: "Operations", value: "Operations" }
+      ],
+      displayOrder: 8,
+    },
+    {
+      type: "number",
+      tag: "input",
+      label: "No of Persons",
+      name: "no_of_persons",
+      classname: "col-span-6",
+      icon: "users",
+      required: true,
+      editable: true,
+      defaultValue: 1,
+      displayOrder: 9,
+    },
+    {
+      type: "textarea",
+      tag: "textarea",
+      label: "Address",
+      name: "address",
+      classname: "col-span-6",
+      icon: "map-pin",
+      required: true,
+      editable: true,
+      displayOrder: 10,
+    }
+  ],
+  actions: [
+    {
+      type: "button",
+      label: "Save",
+      action: "save",
+      classname: "btn-primary",
+    },
+    {
+      type: "button",
+      label: "Close",
+      action: "close",
+      classname: "btn-secondary",
+    }
+  ]
+};
