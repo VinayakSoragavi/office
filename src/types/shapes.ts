@@ -13,7 +13,10 @@ export type Shape = {
   width: number
   height: number
   text?: string
+  stateId:string
   startPoint?: Point
   endPoint?: Point
+  endState:boolean
+  initialState:boolean
 }
 
