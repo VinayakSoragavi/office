@@ -70,3 +70,9 @@ body {
     @apply bg-background text-foreground;
   }
 }
+.no-select {
+  user-select: none; /* Standard syntax */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE/Edge */
+}

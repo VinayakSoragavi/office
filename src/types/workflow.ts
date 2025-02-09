@@ -56,9 +56,32 @@ export interface RenderShapeProps {
   setIsDragging: Dispatch<SetStateAction<boolean>>;
   setDragOffset: Dispatch<SetStateAction<DragOffset>>;
   setStartPos: Dispatch<SetStateAction<Point>>;
+  isFormOpen:string|null
+  setIsFormOpen:Dispatch<SetStateAction<string|null>>;
 }
 
 export interface IconSiderProps{
   selectedTool:string|"select",
   setSelectedTool:Dispatch<SetStateAction<ShapeType | "select">>
+}
+
+export interface ResizeHandleProps {
+  shape: Shape;
+  selectedShape: string | null;
+  shapes: Shape[];
+  setSelectedShape: Dispatch<SetStateAction<string | null>>;
+  setIsResizing: Dispatch<SetStateAction<boolean>>;
+  setResizeHandle: Dispatch<SetStateAction<string | null>>;
+  setIsDragging: Dispatch<SetStateAction<boolean>>;
+  setDragOffset: Dispatch<SetStateAction<DragOffset>>;
+  setStartPos: Dispatch<SetStateAction<Point>>;
+}
+
+export interface HandlePosition {
+  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  cursor: string;
+  style: {
+    left: number;
+    top: number;
+  };
 }

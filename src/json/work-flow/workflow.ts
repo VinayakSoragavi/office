@@ -4,6 +4,11 @@ export const workflow = {
   states: [
     {
       id: "1738838146540",
+      form:[{
+        label:"",
+        value:"",
+        title:"title"
+      }],
       type: "circle",
       x: 57,
       y: 235,
@@ -17,6 +22,11 @@ export const workflow = {
     {
       id: "1738838163185",
       type: "square",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       x: 264,
       y: 236,
       width: 159,
@@ -28,6 +38,11 @@ export const workflow = {
     },
     {
       id: "1738838185170",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "diamond",
       x: 516,
       y: 227,
@@ -41,6 +56,11 @@ export const workflow = {
     {
       id: "1738838197887",
       type: "diamond",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       x: 729,
       y: 228,
       width: 100,
@@ -53,6 +73,11 @@ export const workflow = {
     {
       id: "1738838217128",
       type: "arrow",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       x: 207,
       y: 275,
       width: 100,
@@ -73,6 +98,11 @@ export const workflow = {
     {
       id: "1738838241645",
       type: "arrow",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       x: 420,
       y: 277,
       width: 100,
@@ -92,6 +122,11 @@ export const workflow = {
     },
     {
       id: "1738838297596",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "arrow",
       x: 638,
       y: 276,
@@ -112,6 +147,11 @@ export const workflow = {
     },
     {
       id: "1738838340714",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "arrow",
       x: 850,
       y: 278,
@@ -132,6 +172,11 @@ export const workflow = {
     },
     {
       id: "1738838401343",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "square",
       x: 924,
       y: 241,
@@ -144,6 +189,11 @@ export const workflow = {
     },
     {
       id: "1738838440371",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "square",
       x: 698,
       y: 382,
@@ -156,6 +206,11 @@ export const workflow = {
     },
     {
       id: "1738838466479",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "square",
       x: 484,
       y: 385,
@@ -168,6 +223,11 @@ export const workflow = {
     },
     {
       id: "1738838521451",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "arrow",
       x: 565,
       y: 366,
@@ -188,6 +248,11 @@ export const workflow = {
     },
     {
       id: "1738838578660",
+      form:[{
+        label:"",
+        value:"",
+        title:""
+      }],
       type: "arrow",
       x: 778,
       y: 366,

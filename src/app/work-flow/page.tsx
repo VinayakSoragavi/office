@@ -1,46 +1,45 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Shape, ShapeType } from "@/types/shapes";
 import { handleCanvasClick, handleMouseMove } from "@/utils/work-flow/utility";
-import RenderShape from "./_components/RenderShape";
-import ResizeHandles from "./_components/ResizeHandles";
-import IconSider from "./_components/IconSider";
+import IconSider from "./_components/icon-sider";
+import RenderShape from "./_components/render-shape";
+import ResizeHandles from "./_components/resize-handles";
+import { useWorkflow } from "../../../hooks/useWorkflow";
 
 export default function Home() {
-  // State
-  const [scale, setScale] = useState("100%");
-  const [selectedTool, setSelectedTool] = useState<"select" | ShapeType>(
-    "select"
-  );
-  const [shapes, setShapes] = useState<Shape[]>([]);
-  const [selectedShape, setSelectedShape] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [resizeHandle, setResizeHandle] = useState<string | null>(null);
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
-  const [drawingArrow, setDrawingArrow] = useState<Shape | null>(null);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
-  const canvasRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleGlobalMouseUp = () => {
-      setIsDragging(false);
-      setIsResizing(false);
-      setResizeHandle(null);
-    };
-
-    document.addEventListener("mouseup", handleGlobalMouseUp);
-    return () => {
-      document.removeEventListener("mouseup", handleGlobalMouseUp);
-    };
-  }, []);
+  const {
+    scale,
+    setScale,
+    selectedTool,
+    setSelectedTool,
+    shapes,
+    setShapes,
+    selectedShape,
+    setSelectedShape,
+    isDragging,
+    setIsDragging,
+    isResizing,
+    setIsResizing,
+    resizeHandle,
+    setResizeHandle,
+    startPos,
+    setStartPos,
+    drawingArrow,
+    setDrawingArrow,
+    dragOffset,
+    setDragOffset,
+    canvasRef,
+    isFormOpen,
+    setIsFormOpen
+  } = useWorkflow();
 
   return (
     <div className="flex h-screen bg-[#1e1e1e] text-white">
       {/* Left Toolbar */}
-      <IconSider selectedTool={selectedTool} setSelectedTool={setSelectedTool} />
+      <IconSider
+        selectedTool={selectedTool}
+        setSelectedTool={setSelectedTool}
+      />
 
       {/* Main Canvas Area */}
       <div className="flex-1 flex flex-col">
@@ -111,6 +110,8 @@ export default function Home() {
                 setIsDragging={setIsDragging}
                 setDragOffset={setDragOffset}
                 setStartPos={setStartPos}
+                isFormOpen={isFormOpen}
+                setIsFormOpen={setIsFormOpen}
               />
               {selectedShape === shape.id && (
                 <ResizeHandles

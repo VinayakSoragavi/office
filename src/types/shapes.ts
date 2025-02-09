@@ -5,9 +5,17 @@ export type Point = {
   y: number
 }
 
-export type Shape = {
+export interface BasicInfoForm {
+  label: string;
+  value: string;
+  title: string;
+}
+
+
+export interface Shape {
   id: string
   type: ShapeType
+  form:BasicInfoForm[]
   x: number
   y: number
   width: number

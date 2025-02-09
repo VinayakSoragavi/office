@@ -1,5 +1,6 @@
 import { Shape, ShapeType } from "@/types/shapes";
 import { Dispatch, RefObject, SetStateAction } from "react";
+import { handleArrowCreation, handleArrowResize } from "./arrow-utility";
 
 export const getShapeDimensions = (type: ShapeType) => {
   switch (type) {
@@ -168,24 +169,6 @@ export const handleDiamondResize = (
   };
 };
 
-export const handleArrowResize = (
-  shape: Shape,
-  e: React.MouseEvent,
-  canvasRef: RefObject<HTMLDivElement | null>,
-  resizeHandle: string | null
-) => {
-  const rect = canvasRef.current?.getBoundingClientRect();
-  if (!rect) return shape;
-
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
-
-  return {
-    ...shape,
-    [resizeHandle?.includes("start") ? "startPoint" : "endPoint"]: { x, y },
-  };
-};
-
 export const handleArrowDragging = (
   x: number,
   y: number,
@@ -198,41 +181,6 @@ export const handleArrowDragging = (
     ...drawingArrow,
     endPoint: { x, y },
   } as Shape);
-};
-
-export const handleArrowCreation = (
-  x: number,
-  y: number,
-  drawingArrow: Shape | null,
-  setDrawingArrow: Dispatch<SetStateAction<Shape | null>>,
-  shapes: Shape[],
-  setShapes: Dispatch<SetStateAction<Shape[]>>,
-  setSelectedTool: Dispatch<SetStateAction<ShapeType | "select">>
-) => {
-  if (!drawingArrow) {
-    const newArrow: Shape = {
-      id: Date.now().toString(),
-      type: "arrow",
-      x,
-      y,
-      width: 100,
-      height: 0,
-      startPoint: { x, y },
-      endPoint: { x, y },
-      stateId: "",
-      initialState: false,
-      endState: false,
-    };
-    setDrawingArrow(newArrow);
-  } else {
-    const finalArrow = {
-      ...drawingArrow,
-      endPoint: { x, y },
-    };
-    setShapes([...shapes, finalArrow]);
-    setDrawingArrow(null);
-    setSelectedTool("select");
-  }
 };
 
 export const createNewShape = (
@@ -256,6 +204,14 @@ export const createNewShape = (
     stateId: "",
     initialState: false,
     endState: false,
+    form: [
+      { label: "Title", value: "", title: "title" },
+      { label: "Source State", value: "", title: "sourceState" },
+      { label: "Target State", value: "", title: "targetState" },
+      { label: "Event", value: "", title: "event" },
+      { label: "Action Bean", value: "", title: "actionBean" },
+      { label: "Guard Bean", value: "", title: "guardBean" },
+    ],
   };
 
   setShapes([...shapes, newShape]);
@@ -468,3 +424,7 @@ export const handleMouseDown = (
     y: e.clientY,
   });
 };
+
+export const handleShapeDoubleClick = (id: string, setIsFormOpen: Dispatch<SetStateAction<string|null>>) => {
+  setIsFormOpen(id);
+}

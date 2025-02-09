@@ -1,11 +1,12 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
-import { useForm } from "react-hook-form";
-import RecursiveFormStructure from "./FormStructure";
-import { division } from "@/json/form-data/sectionDetails";
 import { contractor } from "@/json/form-data/department";
 import { ModeEnum } from "@/utils/mode";
 import axios from "axios";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import RecursiveFormStructure from "./FormStructure";
+
+
 
 function SampleForm({ department }: { department: any }) {
   const {
