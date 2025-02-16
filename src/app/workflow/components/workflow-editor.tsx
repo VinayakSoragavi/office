@@ -1,5 +1,5 @@
 "use client";
-import WorkflowTrigger from "@/app/work-flow/_components/workflow-trigger";
+import WorkflowTrigger from "./workflow-trigger";
 import { useCallback, useEffect, useState } from "react";
 import ReactFlow, {
   addEdge,
@@ -15,10 +15,12 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import "reactflow/dist/style.css";
-import { BottomToolbar, CustomNode } from "./CustomNode";
+import { BottomToolbar, CustomNode } from "./custom-node";
 import Controls from "./controls";
 import Header from "./header";
 import SidebarTest from "./sidebar-test";
+import { workflowbackend } from "@/json/work-flow/workflow";
+import Sidebar from "./sidebar";
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -33,10 +35,8 @@ function Flow() {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const { getViewport, screenToFlowPosition, zoomIn, zoomOut, setViewport } =
     useReactFlow();
-  // const [isLocked, setIsLocked] = useState(false);
   const [openSelectBox, setOpenSelectBox] = useState(false);
 
-  // Track connected handles for each node
   const updateConnectedHandles = useCallback(
     (edge: Edge | Connection) => {
       const sourceNode = nodes.find((n) => n.id === edge.source);
@@ -77,7 +77,6 @@ function Flow() {
     [nodes, setNodes]
   );
 
-  // Handle zoom and view controls
   const handleZoomIn = useCallback(() => {
     zoomIn();
   }, [zoomIn]);
@@ -90,52 +89,54 @@ function Flow() {
     setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 200 });
   }, [setViewport]);
 
-  // const handleLockChange = useCallback((locked: boolean) => {
-  //   setIsLocked(locked);
-  // }, []);
-
   const onConnect = useCallback(
     (params: Edge | Connection) => {
-      const edge = {
-        ...params,
-        // type: "smoothstep",
-        style: {
-          stroke: "#7b809a",
-          strokeWidth: 1,
-        },
-        markerEnd: {
-          type: MarkerType.ArrowClosed,
-          color: "#7b809a",
-        },
-      };
-      updateConnectedHandles(edge);
-      setEdges((eds) => addEdge(edge, eds));
+      setEdges((currentEdges) => {
+        // Check if connection already exists
+        const connectionExists = currentEdges.some(
+          edge => 
+            (edge.source === params.source && edge.target === params.target) ||
+            (edge.target === params.source && edge.source === params.target)
+        );
+  
+        if (!connectionExists) {
+          const uniqueEdgeId = `edge-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+          const edge = {
+            ...params,
+            id: uniqueEdgeId,
+            style: {
+              stroke: "#7b809a",
+              strokeWidth: 1,
+            },
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+              color: "#7b809a",
+            },
+          };
+          updateConnectedHandles(edge);
+          return addEdge(edge, currentEdges);
+        }
+  
+        return currentEdges;
+      });
     },
     [setEdges, updateConnectedHandles]
   );
 
   const onAddNode = useCallback(
     (type: string) => {
-      if (type != "defalt") {
-        setNodes(() => []);
-      }
-
-      // Get the dimensions of the viewport
       const viewportWidth = window.innerWidth;
       const viewportHeight = window.innerHeight;
-
-      // Calculate the center position in screen coordinates
       const centerX = viewportWidth / 2;
       const centerY = viewportHeight / 2;
-
-      // Convert screen coordinates to flow coordinates
       const position = screenToFlowPosition({
         x: centerX,
         y: centerY,
       });
-
+  
+      const newNodeId = `${type}-${Date.now()}`;
       const newNode: Node = {
-        id: `${type}-${Date.now()}`,
+        id: newNodeId,
         type: "custom",
         position,
         data: {
@@ -147,17 +148,94 @@ function Flow() {
           setOpenSelectBox: setOpenSelectBox,
         },
       };
-      setNodes((nds) => nds.concat(newNode));
+  
+      setNodes((currentNodes) => {
+        let updatedNodes;
+        if (currentNodes.length === 0) {
+          updatedNodes = [newNode];
+        } else if (type !== "defalt") {
+          const nodesWithoutDefault = currentNodes.filter(
+            node => !node.id.startsWith("defalt-")
+          );
+          updatedNodes = [...nodesWithoutDefault, newNode];
+        } else if (type === "defalt" && currentNodes.length > 0) {
+          updatedNodes = currentNodes;
+        } else {
+          updatedNodes = [...currentNodes, newNode];
+        }
+  
+        // Create edge if there's a selected node
+        if (selectedNode && type !== "defalt" && type !== "start-flow") {
+          // Check if an edge already exists between these nodes
+          setEdges((currentEdges) => {
+            const existingEdge = currentEdges.find(
+              (edge) => 
+                (edge.source === selectedNode && edge.target === newNodeId) ||
+                (edge.target === selectedNode && edge.source === newNodeId)
+            );
+  
+            if (!existingEdge) {
+              // Generate a unique edge ID using timestamp and random number
+              const uniqueEdgeId = `edge-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+              
+              const newEdge: Edge = {
+                id: uniqueEdgeId,
+                source: selectedNode,
+                target: newNodeId,
+                sourceHandle: 'right',
+                targetHandle: 'left',
+                type: 'default',
+                style: {
+                  stroke: "#7b809a",
+                  strokeWidth: 1,
+                },
+                markerEnd: {
+                  type: MarkerType.ArrowClosed,
+                  color: "#7b809a",
+                },
+              };
+  
+              return [...currentEdges, newEdge];
+            }
+  
+            return currentEdges;
+          });
+  
+          // Update connected handles for both nodes
+          const sourceNode = currentNodes.find(n => n.id === selectedNode);
+          if (sourceNode) {
+            sourceNode.data.connectedHandles = {
+              ...sourceNode.data.connectedHandles,
+              right: "source"
+            };
+          }
+  
+          newNode.data.connectedHandles = {
+            ...newNode.data.connectedHandles,
+            left: "target"
+          };
+        }
+  
+        return updatedNodes;
+      });
+  
+      // Set the newly added node as selected
+      setSelectedNode(newNodeId);
     },
-    [setNodes, getViewport, screenToFlowPosition]
+    [setNodes, screenToFlowPosition, selectedNode, setEdges]
   );
+
+  
 
   const onNodeClick = useCallback((event: React.MouseEvent, node: Node) => {
     setSelectedNode(node.id);
   }, []);
+
   useEffect(() => {
-    onAddNode("defalt");
-  }, []);
+    if (nodes.length === 0) {
+      onAddNode("defalt");
+    }
+  }, [nodes.length, onAddNode]);
 
   const updateNodeType = useCallback(
     (nodeId: string, newType: string) => {
@@ -184,8 +262,7 @@ function Flow() {
     <>
       <div className="flex flex-wrap h-screen bg-[#f0f2f5]">
         <div className="p-4 fixed top-0 left-0 z-50 h-full">
-          <SidebarTest />
-          {/* <Sidebar onAddNode={onAddNode} /> */}
+          <SidebarTest onAddNode={onAddNode}/>
         </div>
         <div className="w-full flex flex-wrap">
           <div className="flex-grow relative">
@@ -211,9 +288,7 @@ function Flow() {
                 onZoomIn={handleZoomIn}
                 onZoomOut={handleZoomOut}
                 onReset={handleReset}
-                // onLockChange={handleLockChange}
               />
-              {/* <MiniMap /> */}
               <Background className="bg-[#f0f2f5]" gap={12} size={1} />
               <BottomToolbar
                 selectedNode={selectedNode}
@@ -228,8 +303,8 @@ function Flow() {
       </div>
 
       {openSelectBox && (
-        <div className="fixed right-0 top-0 w-1/4 h-screen pb-4 flex flex-wrap">
-          <WorkflowTrigger onAddNode={onAddNode} />
+        <div className="fixed right-0 top-0 w-1/4 h-screen pb-4">
+          <WorkflowTrigger onAddNode={onAddNode} workflowbackend={workflowbackend}/>
         </div>
       )}
     </>

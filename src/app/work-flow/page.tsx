@@ -21,7 +21,7 @@ import IconSider from "./_components/icon-sider";
 import NavbarWorkFlow from "./_components/navbar-work-flow";
 import ZoomWrapper from "./_components/zoom-wrapper";
 import CircleNode from "./_components/common/circle-node";
-import WorkflowTrigger from "./_components/workflow-trigger";
+import WorkflowTrigger from "../workflow/components/workflow-trigger";
 
 export default function Home() {
   const {

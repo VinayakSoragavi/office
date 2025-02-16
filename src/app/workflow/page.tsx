@@ -1,4 +1,4 @@
-import WorkflowEditor from "./components/WorkflowEditor";
+import WorkflowEditor from "./components/workflow-editor";
 
 export default function Home() {
   return (

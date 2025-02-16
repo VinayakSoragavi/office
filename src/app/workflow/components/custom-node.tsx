@@ -133,7 +133,7 @@ function CustomNode({ data, selected }: NodeProps<CustomNodeData>) {
                 selected={selected}
               />
             );
-            case "defalt":
+            case "defalt" :
             return (
               <DefaltNode
                 selected={selected}

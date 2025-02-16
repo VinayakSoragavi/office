@@ -116,7 +116,7 @@ function StartFlow({
     height: "2px",
     background: "#2563eb",
     border: "0px solid white",
-    opacity: 0,
+    opacity: selected?1:0,
     zIndex: 0,
     cursor: "pointer"
   };
@@ -151,7 +151,7 @@ function StartFlow({
         <div className="w-6 border-[1px] border-[#343439]"></div>
         <button
           className="w-3 h-3 flex items-center justify-center border-[1px] border-[#343439] rounded-full bg-white shadow-md hover:bg-gray-100"
-          onClick={handleAddNode}
+          // onClick={handleAddNode}
         >
           <Plus size={10} className="text-[#343439]" />
         </button>
