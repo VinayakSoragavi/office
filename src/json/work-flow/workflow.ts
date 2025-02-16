@@ -4,6 +4,7 @@ export const workflow = {
   states: [
     {
       id: "1738838146540",
+      title: 'Box 1',
       form:[{
         label:"",
         value:"",
@@ -12,6 +13,7 @@ export const workflow = {
       type: "circle",
       x: 57,
       y: 235,
+      position: { x: 600, y: 200 },
       width: 150,
       height: 79,
       stateId: "LEAVE_REQUEST",

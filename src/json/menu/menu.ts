@@ -19,16 +19,16 @@ import {
 } from "lucide-react"
 
 export const menuItems = [
-    // {
-    //   title: "Dashboards",
-    //   icon: LayoutDashboard,
-    //   path: "/dashboard",
-    //   submenu: [
-    //     { title: "Analytics", icon: BarChart, path: "/dashboard/analytics" },
-    //     { title: "Statistics", icon: LineChart, path: "/dashboard/statistics" },
-    //     { title: "Reports", icon: PieChart, path: "/dashboard/reports" },
-    //   ],
-    // },
+    {
+      title: "Dashboards",
+      icon: LayoutDashboard,
+      path: "/dashboard",
+      submenu: [
+        { title: "Analytics", icon: BarChart, path: "/dashboard/analytics" },
+        { title: "Statistics", icon: LineChart, path: "/dashboard/statistics" },
+        { title: "Reports", icon: PieChart, path: "/dashboard/reports" },
+      ],
+    },
     {
       title: "Pages",
       isHeader: true,

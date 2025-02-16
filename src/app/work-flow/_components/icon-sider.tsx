@@ -1,9 +1,8 @@
 import ToolButton from '@/components/common/button/ToolButton'
-import { IconSiderProps } from '@/types/workflow'
 import { ArrowUpRight, Circle, Gem, Link, Maximize, MousePointer, Pencil, Plus, Square, Type } from 'lucide-react'
 import React from 'react'
 
-function IconSider({selectedTool,setSelectedTool}:IconSiderProps) {
+function IconSider({selectedTool,setSelectedTool,setBoxes,boxes}:any) {
   return (
     <div className="w-14 bg-[#242424] flex flex-col gap-1 p-2">
         <div className="flex items-center mb-4">
@@ -15,12 +14,33 @@ function IconSider({selectedTool,setSelectedTool}:IconSiderProps) {
         <ToolButton
           icon={<MousePointer className="w-5 h-5" />}
           active={selectedTool === "select"}
-          onClick={() => setSelectedTool("select")}
+          
         />
         <ToolButton
           icon={<Square className="w-5 h-5" />}
           active={selectedTool === "square"}
-          onClick={() => setSelectedTool("square")}
+          onClick={() => setBoxes([
+            ...boxes,
+            {
+              id: Date.now().toString(),
+              title: 'Box 1',
+              form:[{
+                label:"",
+                value:"",
+                title:"title"
+              }],
+              type: "square",
+              x: 57,
+              y: 235,
+              position: { x: 400, y: 200 }, 
+              width: 150,
+              height: 100,
+              stateId: "LEAVE_REQUEST",
+              prasentStatues:"",
+              initialState: true,
+              endState: true,
+            },
+          ])}
         />
         <ToolButton
           icon={<Gem className="w-5 h-5" />}
@@ -30,7 +50,28 @@ function IconSider({selectedTool,setSelectedTool}:IconSiderProps) {
         <ToolButton
           icon={<Circle className="w-5 h-5" />}
           active={selectedTool === "circle"}
-          onClick={() => setSelectedTool("circle")}
+          onClick={() => setBoxes([
+            ...boxes,
+            {
+              id: Date.now().toString(),
+              title: 'Box 1',
+              form:[{
+                label:"",
+                value:"",
+                title:"title"
+              }],
+              type: "circle",
+              x: 57,
+              y: 235,
+              position: { x: 400, y: 200 },
+              width: 120,
+              height: 100,
+              stateId: "LEAVE_REQUEST",
+              prasentStatues:"",
+              initialState: true,
+              endState: true,
+            },
+          ])}
         />
         <ToolButton
           icon={<ArrowUpRight className="w-5 h-5" />}
